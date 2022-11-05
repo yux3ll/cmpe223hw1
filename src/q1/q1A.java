@@ -6,7 +6,7 @@ public class q1A {
     //input: file including a matrix
     //result: given matrix read spirally
     //implementation requirement: linked lists
-//test
+//test/lla
     public static  void main(String[] args){
 
     }
