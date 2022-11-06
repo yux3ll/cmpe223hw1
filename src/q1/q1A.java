@@ -1,34 +1,99 @@
 package q1;
-import java.util.LinkedList;
-
+import java.io.*;
+import java.util.Scanner;
 public class q1A {
 
-    //input: file including a matrix
-    //result: given matrix read spirally
-    //implementation requirement: linked lists
-//test/lla
-    public static  void main(String[] args){
+    //-----------------------------------------------------
+    // Title: Spiral Matrix Reader
+    // Author: Yüksel Çağlar Baypınar
+    // ID: 43951623744
+    // Section: 02
+    // Assignment: 1
+    // Description: This class takes a file in the form of a matrix as an input
+    //  and prints it as a spiral by using linked lists.
+    //-----------------------------------------------
+    public static void main(String[] args) {
+        try {
+            Scanner k = new Scanner(System.in);
+            String fileName = k.nextLine();
+            Scanner input = new Scanner(new File(fileName));
+            System.out.println("Input filename: ");
+            LinkedList result = matrixSpiral(input);
+            if(LinkedList.differentiate0(result))
+                LinkedList.printList(result);
+        } catch (FileNotFoundException e) {
+            System.out.println("File is not found, please adjust your directories accordingly!");
+            throw new RuntimeException(e);
+        }
+
 
     }
 
-    private LinkedList<Integer> spiralMatrix(){
+    //an iterative approach
+    private static LinkedList matrixSpiral(Scanner myFile) {
 
-        //create a linked list
+        LinkedList inputFile = new LinkedList();
+        LinkedList spiral = new LinkedList();
+        int x = 0, y = 0;
 
-        //determine the numbers of rows(x) and columns(y)(read the file from top to bottom and left to right until null value is reached
+        // This loop helps make it possible to get the data and count rows and columns within one read
+        while (myFile.hasNextLine()) {
 
 
-        // for(n starting from 1, less than or equal to x/2(ceiling),n++):
-            //determine first element (n row n column)
+            Scanner buffer = new Scanner(myFile.nextLine());
+            x++;
+            while (buffer.hasNextInt()) {
+                LinkedList.insert(inputFile, buffer.nextInt());
+                if (x == 1) {
+                    y++;
+                }
+            }
+        }
+        myFile.close();
+
+        double iterations =Math.ceil((double) x/2);
+
+        for(int n=1;n<=iterations;n++){
+            //determine starting element (n row n column)
+            int startingIndex= (n-1)*y+n;
+            int element = LinkedList.getElement(inputFile, startingIndex) ;
+            if(element==-1) return spiral;
+            LinkedList.insert(spiral, element);
+
             //at every movement of the cursor, check if given value is the stop value, if so break, if not,add the current entry to the linked list
-            //Descend x-(2n-1) times
-            //go to the right y-(2n-1)(if x-(2n-1)==0, then break here to avoid overlap)
-            //ascending x-(2n-1) times
+
+            //Descend x-(2n-1) times, add each entry to the spiral as we go
+            for(int i =1; i<=(x-(2*n-1));i++){
+                element=LinkedList.getElement(inputFile, startingIndex+y*i);
+                if(element==-1) return spiral;
+                LinkedList.insert(spiral, element);
+            }
+
+            //go to the right y-(2n-1)(if x-(2n-1)==0)
+            for(int i=1; i<=(y-(2*n-1));i++){
+                element= LinkedList.getElement(inputFile, startingIndex+(x-(2*n-1))*y+i);
+                if(element==-1) return spiral;
+                LinkedList.insert(spiral, element);
+            }
+
+            //done to avoid overlap
+            if(x-(2*n-1)==0){
+                return spiral;
+            }
+            //ascend x-(2n-1) times
+            for(int i=1;i<=x-(2*n-1);i++){
+                element=LinkedList.getElement(inputFile, startingIndex+(x-(2*n-1))*y+(y-(2*n-1))-y*i);
+                if(element==-1) return spiral;
+                LinkedList.insert(spiral, element);
+            }
             //go to the left y-(2n)
-        // return the list
+            for(int i=1;i<=(y-2*n);i++){
+                element=LinkedList.getElement(inputFile, startingIndex+y-(2*n-1)-i);
+                if(element==-1) return spiral;
+                LinkedList.insert(spiral, element);
+            }
 
-
-
+        }
+        return spiral;
     }
-
 }
