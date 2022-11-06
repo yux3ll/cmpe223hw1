@@ -21,6 +21,7 @@ public class q2 {
         try {
             Scanner k = new Scanner(System.in);
             String fileName = k.nextLine();
+            k.close();
             Scanner input = new Scanner(new File(fileName));
             System.out.println("Input filename: ");
             LinkedList.printList(spanCheck(input));
@@ -32,35 +33,35 @@ public class q2 {
     }
 
 
-    static LinkedList spanCheck(Scanner input){
+    private static LinkedList spanCheck(Scanner input){
         int entryAmount=0;
         LinkedList values = new LinkedList();
         LinkedList results = new LinkedList();
         Stack prices = new Stack();
-        //Take the input into a linked-list
-        while(input.hasNextInt()){
+
+        while(input.hasNextInt()){ //Take the input into a linked-list
             LinkedList.insert(values, input.nextInt());
             entryAmount++;
         }
-        //Create stack from said linked list
-        for(int i=0;i<entryAmount;i++){
+
+        for(int i=0;i<entryAmount;i++){ //Create stack from said linked list
             prices.push(LinkedList.getElement(values ,entryAmount-i));
         }
-        //The first element will always be 1 and doesn't need processing
-        LinkedList.insert(results,1);
+
+        LinkedList.insert(results,1); //The first element will always be 1 and doesn't need processing
         prices.pop();
 
-        //process each element of the stack
-        for(int i=2; i<=entryAmount;i++){
+
+        for(int i=2; i<=entryAmount;i++){ //process each element of the stack
             int x= prices.pop();
             int tempMax=0;
             LinkedList.insert(results, 0);
-            //compare the values again the previous values, keep the current maximum value in a temporary variable
-            // check after each increment if the temporary value is greater than currently recorded one
-            for(int j=1; j<=i;j++){
+
+
+            for(int j=1; j<=i;j++){  //compare the values again the previous values, keep the current maximum value in a temporary variable
                 if(x<=LinkedList.getElement(values,j)){
                     tempMax++;
-                    if(tempMax>LinkedList.getElement(results,i)){
+                    if(tempMax>LinkedList.getElement(results,i)){// check after each increment if the temporary value is greater than currently recorded one
                         LinkedList.editElement(results,i,tempMax);
                     }
                 }else{ tempMax=0;}

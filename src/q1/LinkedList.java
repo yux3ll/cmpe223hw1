@@ -63,7 +63,28 @@ public class LinkedList {
             newNode.Left=last;
         }
     }
-
+    public static int length(LinkedList list){
+        Node temp = list.Head;
+        int count = 0;
+        while (temp != null) {
+            count++;
+            temp = temp.Right;
+        }
+        return count;
+    }
+    public static boolean includes(LinkedList list, int checkNum){
+        Node check = list.Head;
+        if(check.data== checkNum){
+            return true;
+        }
+        while(check.Right != null){
+            check = check.Right;
+            if(check.data == checkNum){
+                return true;
+            }
+        }
+        return false;
+    }
     public static boolean differentiate0(LinkedList list){
         return list.Head.initialized;
     }
