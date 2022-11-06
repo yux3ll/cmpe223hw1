@@ -13,6 +13,7 @@ public class Stack {
 
     }
 
+
     public void push(int x){
 
         Node temp = new Node();
@@ -23,6 +24,7 @@ public class Stack {
     public boolean stackEmpty(){
         return top==null;
     }
+
     public int pop(){
         if(stackEmpty()){
             System.out.println("Stack is empty");
